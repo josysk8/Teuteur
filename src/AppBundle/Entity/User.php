@@ -23,6 +23,20 @@ class User extends BaseUser
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
 	protected $id;
+	/**
+     * @var array
+     *
+     * @ORM\ManyToMany(targetEntity="user",
+	 inversedBy="followedby")
+	 * @ORM\JoinTable(name="follow_user")
+     */
+    private $follow;
+    /**
+     * @var array
+     *
+     * @ORM\ManyToMany(targetEntity="user", mappedBy="follow")
+     */
+    private $followedby;
 
 	public function __construct()
 	{
