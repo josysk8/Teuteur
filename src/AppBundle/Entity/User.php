@@ -13,6 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
 class User extends BaseUser
 {
 	/**
+	 * @ORM\OneToMany(targetEntity="Post", mappedBy="author")
+	 */
+	protected $posts;
+
+	/**
 	 * @ORM\Id
 	 * @ORM\Column(type="integer")
 	 * @ORM\GeneratedValue(strategy="AUTO")
