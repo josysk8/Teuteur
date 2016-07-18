@@ -10,4 +10,17 @@ namespace AppBundle\Repository;
  */
 class PostRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function getLastForHome($authors, $start, $limit)
+	{
+		$query = $this->createQueryBuilder('p')
+			->where('p.author IN (:authors)')
+			->setParameter(':authors', $authors)
+			->andWhere('p.status = 1')
+			->orderBy('p.dateCreate', 'DESC')
+			->setFirstResult($start)
+			->setMaxResults($limit)
+			->getQuery();
+
+		return $query->getResult();
+	}
 }

@@ -60,7 +60,7 @@ class Post
     /**
      * @var \stdClass
      *
-     * @ORM\ManyToOne(targetEntity="user")
+     * @ORM\ManyToOne(targetEntity="post")
 	 * @ORM\JoinColumn(name="repost_target", referencedColumnName="id", nullable=true)
      */
     private $repostTarget;
@@ -68,7 +68,7 @@ class Post
     /**
      * @var \stdClass
      *
-     * @ORM\ManyToOne(targetEntity="user", inversedBy="responses")
+     * @ORM\ManyToOne(targetEntity="post", inversedBy="responses")
 	 * @ORM\JoinColumn(name="parent", referencedColumnName="id", nullable=true)
      */
     private $parent;
