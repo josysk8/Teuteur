@@ -16,13 +16,15 @@ class PostController extends Controller
 	{
 		/** @var PostRepository $postRepository */
 		$postRepository = $this->get('doctrine')
-			->getRepository('AppBundle:Post');
+		->getRepository('AppBundle:Post');
 
 		$authorsList = array(1);
 		$posts = $postRepository->getLastForHome($authorsList, 0, 50);
-
-		return $this->render('default/index.html.twig', [
+		$user = $this->container->get('security.token_storage')->getToken()->getUser();
+		return $this->render('posts/posts.html.twig', [
 			'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
-		]);
+			'posts' => $posts,
+			'user' => $user,
+			]);
 	}
 }
