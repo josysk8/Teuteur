@@ -17,6 +17,13 @@ class User extends BaseUser
 	 */
 	protected $posts;
 
+	 /**
+     * @var string
+     *
+     * @ORM\Column(name="profilPic", type="string", length=255)
+     */
+	 private $profilPic;
+
 	/**
 	 * @ORM\Id
 	 * @ORM\Column(type="integer")
@@ -31,7 +38,7 @@ class User extends BaseUser
 	 *	 joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
 	 *	 inverseJoinColumns={@ORM\JoinColumn(name="friend_user_id", referencedColumnName="id")})
      */
-    private $follow;
+	private $follow;
     /**
      * @var array
      *
@@ -39,11 +46,36 @@ class User extends BaseUser
      */
     private $followedby;
 
-	public function __construct()
-	{
-		parent::__construct();
+    public function __construct()
+    {
+    	parent::__construct();
 		// your own logic
-	}
+    }
+
+    /**
+     * Set profilPic
+     *
+     * @param string $profilPic
+     *
+     * @return User
+     */
+    public function setProfilPic($profilPic)
+    {
+    	$this->profilPic = $profilPic;
+
+    	return $this;
+    }
+
+    /**
+     * Get profilPic
+     *
+     * @return string
+     */
+    public function getProfilPic()
+    {
+    	return $this->profilPic;
+    }
+
 
     /**
      * Add post
@@ -54,9 +86,9 @@ class User extends BaseUser
      */
     public function addPost(\AppBundle\Entity\Post $post)
     {
-        $this->posts[] = $post;
+    	$this->posts[] = $post;
 
-        return $this;
+    	return $this;
     }
 
     /**
@@ -66,7 +98,7 @@ class User extends BaseUser
      */
     public function removePost(\AppBundle\Entity\Post $post)
     {
-        $this->posts->removeElement($post);
+    	$this->posts->removeElement($post);
     }
 
     /**
@@ -76,7 +108,7 @@ class User extends BaseUser
      */
     public function getPosts()
     {
-        return $this->posts;
+    	return $this->posts;
     }
 
     /**
@@ -88,9 +120,9 @@ class User extends BaseUser
      */
     public function addFollow(\AppBundle\Entity\user $follow)
     {
-        $this->follow[] = $follow;
+    	$this->follow[] = $follow;
 
-        return $this;
+    	return $this;
     }
 
     /**
@@ -100,7 +132,7 @@ class User extends BaseUser
      */
     public function removeFollow(\AppBundle\Entity\user $follow)
     {
-        $this->follow->removeElement($follow);
+    	$this->follow->removeElement($follow);
     }
 
     /**
@@ -110,7 +142,7 @@ class User extends BaseUser
      */
     public function getFollow()
     {
-        return $this->follow;
+    	return $this->follow;
     }
 
     /**
@@ -122,9 +154,9 @@ class User extends BaseUser
      */
     public function addFollowedby(\AppBundle\Entity\user $followedby)
     {
-        $this->followedby[] = $followedby;
+    	$this->followedby[] = $followedby;
 
-        return $this;
+    	return $this;
     }
 
     /**
@@ -134,7 +166,7 @@ class User extends BaseUser
      */
     public function removeFollowedby(\AppBundle\Entity\user $followedby)
     {
-        $this->followedby->removeElement($followedby);
+    	$this->followedby->removeElement($followedby);
     }
 
     /**
@@ -144,6 +176,6 @@ class User extends BaseUser
      */
     public function getFollowedby()
     {
-        return $this->followedby;
+    	return $this->followedby;
     }
 }
