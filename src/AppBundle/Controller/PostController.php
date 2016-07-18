@@ -19,9 +19,10 @@ class PostController extends Controller
 			->getRepository('AppBundle:Post');
 
 		$authorsList = array(1);
-		$posts = $postRepository->getLastForHome($authorsList, 0, 20);
-		$postRepository->findBy(array('author'=>$objevt, 'parent'=>$parent))
+		$posts = $postRepository->getLastForHome($authorsList, 0, 50);
 
-		dump($posts);die;
+		return $this->render('default/index.html.twig', [
+			'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
+		]);
 	}
 }
