@@ -402,5 +402,29 @@ class Post
 	{
 		$this->report->removeElement($user);
 	}
+
+	/**
+	 * Add like
+	 *
+	 * @param \AppBundle\Entity\User $user
+	 *
+	 * @return User
+	 */
+	public function addLike(\AppBundle\Entity\User $user)
+	{
+		$this->likes[] = $user;
+
+		return $this;
+	}
+
+	/**
+	 * Remove like
+	 *
+	 * @param \AppBundle\Entity\User $user
+	 */
+	public function removeLike(\AppBundle\Entity\Post $user)
+	{
+		$this->likes->removeElement($user);
+	}
 }
 
