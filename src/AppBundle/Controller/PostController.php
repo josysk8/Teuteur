@@ -18,13 +18,12 @@ class PostController extends Controller
 	public function homeAction(Request $request)
 	{
 		/** @var PostRepository $postRepository */
-		$postRepository = $this->get('doctrine')
-		->getRepository('AppBundle:Post');
+		$postRepository = $this->get('doctrine')->getRepository('AppBundle:Post');
 		/** @var User $user */
 		$user = $this->container->get('security.token_storage')->getToken()->getUser();
 		$authorsList = $user->getFollow();
 		$posts = $postRepository->getLastForHome($authorsList, 0, 50);
-		$user = $this->container->get('security.token_storage')->getToken()->getUser();
+		//$user = $this->container->get('security.token_storage')->getToken()->getUser();
 		return $this->render('posts/posts.html.twig', [
 			'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
 			'posts' => $posts,
@@ -45,7 +44,7 @@ class PostController extends Controller
 		/** @var User $user */
 		$user = $this->container->get('security.token_storage')->getToken()->getUser();
 		//TODO DEBUG
-		$user = $this->getDoctrine()->getRepository('AppBundle:User')->find(2);
+		//$user = $this->getDoctrine()->getRepository('AppBundle:User')->find(2);
 		$post = null;
 		if (!empty($user))
 		{
