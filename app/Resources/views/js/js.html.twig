@@ -62,32 +62,49 @@ $( ".RT" ).click(function(){
 	});
 });
 
-$( ".like" ).click(function(){
+$( ".report" ).click(function(){
 	console.log($(this).attr('data-idPost') );
 
 	var likeOrigin = $(this).attr('data-idPost');
 	var request = $.ajax({
-		url: "/post/create",
+		url: "/post/"+likeOrigin+"/report",
 		method: "POST",
-		data: {
-		},
 		dataType: "json"
 	});
 
 	request.done(function(msg) {
 		msg = $.parseJSON(msg);
-
 		if (msg['result'] == "success")
 		{
-			console.log((msg['data']));
+			alert( "Votre demande a été envoyé.");
 		}
-
 	});
 
 	request.fail(function( jqXHR, textStatus ) {
-		alert( "Request failed: " + textStatus );
+		alert( "Vous avez déjà signaler ce post." );
 	});
 });
+
+$( ".followButton" ).click(function(){
+	console.log($(this).attr('data-idAuthor') );
+
+	var idAuthor = $(this).attr('data-idAuthor');
+	var request = $.ajax({
+		url: "/user/follow/"+idAuthor+"",
+		method: "POST",
+		dataType: "json"
+	});
+
+	request.done(function(msg) {
+		alert( "Vous suivez maintenant cette personne.");
+	});
+
+	request.fail(function( jqXHR, textStatus ) {
+		alert( "Vous suivez déjà cette personne." );
+	});
+
+});
+
 });
 </script>
 {% endblock %}
