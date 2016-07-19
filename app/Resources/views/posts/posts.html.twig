@@ -13,34 +13,36 @@
 <h1 class="sectionTitle">Exprimez-vous</h1>
 <textarea name="message" placeholder="Votre message ici" id="messageInput"></textarea>
 <br>
-<button class="postButton button">Postez</button>
+<button id="postMessageButton" class="postButton button">Postez</button>
 <h1 class="sectionTitle">Liste des posts</h1>
-{% for post in posts %}
-{% if post.repost == true %}
-<div class="post">
-	<div class="autorRT">Retweeté par {{post.getauthor.getusername}}</div>
-	<div class="top">
-		<img class="profilPic" src="{{post.getreposttarget.getauthor.getprofilpic}}">
-		<div class="author">{{post.getreposttarget.getauthor.getusername}} <div class="email">{{post.getreposttarget.getauthor.getemail}}</div></div>
-		<div class="postTime">{{post.getreposttarget.dateUpdate|date("d/m/Y")}}</div>
-		<div class="follow"><button class="followButton button">Suivre</button></div>
+<div id="listePost">
+	{% for post in posts %}
+	{% if post.repost == true %}
+	<div class="post">
+		<div class="autorRT">Retweeté par {{post.getauthor.getusername}}</div>
+		<div class="top">
+			<img class="profilPic" src="{{post.getreposttarget.getauthor.getprofilpic}}">
+			<div class="author">{{post.getreposttarget.getauthor.getusername}} <div class="email">{{post.getreposttarget.getauthor.getemail}}</div></div>
+			<div class="postTime">{{post.getreposttarget.dateUpdate|date("d/m/Y")}}</div>
+			<div class="follow"><button class="followButton button">Suivre</button></div>
+		</div>
+		<div class="content">{{post.getreposttarget.message}}<div class="embed"><!--<img class="embedPic" src="http://www.tao-restaurant.fr/wp-content/uploads/2013/03/plage20111102.jpg">--></div></div>
+		<div class="socialButton"><button class="like button">J'aime</button>nb-jaime<button class="RT button">RT</button>nb-RT</div>
 	</div>
-	<div class="content">{{post.getreposttarget.message}}<div class="embed"><!--<img class="embedPic" src="http://www.tao-restaurant.fr/wp-content/uploads/2013/03/plage20111102.jpg">--></div></div>
-	<div class="socialButton"><button class="like button">J'aime</button>nb-jaime<button class="RT button">RT</button>nb-RT</div>
-</div>
-{% else %}
-<div class="post">
-	<div class="top">
-		<img class="profilPic" src="{{post.getauthor.getprofilpic}}">
-		<div class="author">{{post.getauthor.getusername}} <div class="email">{{post.getauthor.getemail}}</div></div>
-		<div class="postTime">{{post.dateUpdate|date("d/m/Y")}}</div>
-		<div class="follow"><button class="followButton button">Suivre</button></div>
+	{% else %}
+	<div class="post">
+		<div class="top">
+			<img class="profilPic" src="{{post.getauthor.getprofilpic}}">
+			<div class="author">{{post.getauthor.getusername}} <div class="email">{{post.getauthor.getemail}}</div></div>
+			<div class="postTime">{{post.dateUpdate|date("d/m/Y")}}</div>
+			<div class="follow"><button class="followButton button">Suivre</button></div>
+		</div>
+		<div class="content">{{post.message}}<div class="embed"><!--<img class="embedPic" src="http://www.tao-restaurant.fr/wp-content/uploads/2013/03/plage20111102.jpg">--></div></div>
+		<div class="socialButton"><button class="like button">J'aime</button>nb-jaime<button class="RT button">RT</button>nb-RT</div>
 	</div>
-	<div class="content">{{post.message}}<div class="embed"><!--<img class="embedPic" src="http://www.tao-restaurant.fr/wp-content/uploads/2013/03/plage20111102.jpg">--></div></div>
-	<div class="socialButton"><button class="like button">J'aime</button>nb-jaime<button class="RT button">RT</button>nb-RT</div>
+	{% endif %}
+	{% endfor %}
 </div>
-{% endif %}
-{% endfor %}
 {% endblock %}
 {% block stylesheets %}
 {% stylesheets 'bundles/app/css/main.css' filter="cssrewrite" %}
