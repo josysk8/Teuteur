@@ -1,4 +1,36 @@
 {% block javascripts %}
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="main.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+<script>
+
+$(document).ready(function()
+{
+	$( "#postMessageButton" ).click(function(){
+		var message = $( "#messageInput" ).val();
+		var request = $.ajax({
+			url: "/post/create",
+			method: "POST",
+			data: { message : message,
+				parent : null,
+				repost_target : null,
+				repost: null
+			},
+			dataType: "json"
+		});
+
+		request.done(function(msg) {
+			msg = $.parseJSON(msg);
+			if (msg['result'] == "success")
+			{
+				console.log(msg);
+				$( "#listePost" ).append(msg);
+			}
+		});
+
+		request.fail(function( jqXHR, textStatus ) {
+			alert( "Request failed: " + textStatus );
+		});
+	});
+});
+</script>
 {% endblock %}
