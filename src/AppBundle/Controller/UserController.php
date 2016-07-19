@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
+use AppBundle\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -140,5 +141,21 @@ class UserController extends Controller
 		$response->setData($data);
 		$response->send();
 		die;
+	}
+
+	/**
+	 * @Route("/user/{id}/nonfriend", name="users_non_friend")
+	 */
+	public function getNonFriend($id)
+	{
+		/** @var UserRepository $userRepository */
+		$userRepository = $this->get('doctrine')
+			->getRepository('AppBundle:User');
+		/** @var User $user */
+		$user = $userRepository->find($id);
+		$usersList = $userRepository->getNonFriend($user);
+		return $this->render('user/nonfriend.html.twig', array(
+			'users' => $usersList,
+		));
 	}
 }
