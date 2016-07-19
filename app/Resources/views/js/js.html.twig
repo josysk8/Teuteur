@@ -23,7 +23,7 @@ $(document).ready(function()
 			if (msg['result'] == "success")
 			{
 				console.log((msg['data']));
-				var newPost = "<div class='post'><div class='top'><img class='profilPic' src='"+msg['data']['author']['profilPic']+"'><div class='author'>"+msg['data']['author']['username']+" <div class='email'>"+msg['data']['author']['email']+"</div></div> <div class='postTime'>"+msg['data']['dateCreate']['date'].toString()+"</div><div class='follow'><button class='followButton button'>Suivre</button></div></div><div class='content'>"+msg['data']['message']+"<div class='embed'><!--<img class='embedPic' src='http://www.tao-restaurant.fr/wp-content/uploads/2013/03/plage20111102.jpg'>--></div></div><div class='socialButton'><button class='like button'>J\'aime</button>nb-jaime<button class='RT button'>RT</button>nb-RT</div></div>";
+				var newPost = "<div class='post'><div class='top'><img class='profilPic' src='"+msg['data']['author']['profilPic']+"'><div class='author'>"+msg['data']['author']['username']+" <div class='email'>"+msg['data']['author']['email']+"</div></div> <div class='postTime'>"+msg['data']['dateCreate']['date'].toString()+"</div><div class='follow'><button class='followButton button'>Suivre</button></div></div><div class='content'>"+msg['data']['message']+"<div class='embed'><!--<img class='embedPic' src='http://www.tao-restaurant.fr/wp-content/uploads/2013/03/plage20111102.jpg'>--></div></div><div class='socialButton'><button data-idPost='"+msg['data']['id']+"' class='like button'>J\'aime</button>nb-jaime<button data-idPost='"+msg['data']['id']+"' class='RT button'>RT</button>nb-RT</div>";
 				$( "#listePost" ).prepend(newPost);
 			}
 		});
@@ -33,7 +33,60 @@ $(document).ready(function()
 		});
 	});
 $( ".RT" ).click(function(){
-	console.log(this.parentNode.parentNode.childNodes.item("input"));
+	console.log($(this).attr('data-idPost') );
+
+	var rtOrigin = $(this).attr('data-idPost');
+	var request = $.ajax({
+		url: "/post/create",
+		method: "POST",
+		data: { message : null,
+			parent : null,
+			repost_target : rtOrigin,
+			repost: 1
+		},
+		dataType: "json"
+	});
+
+	request.done(function(msg) {
+		msg = $.parseJSON(msg);
+
+		if (msg['result'] == "success")
+		{
+			console.log((msg['data']));
+		}
+
+	});
+
+	request.fail(function( jqXHR, textStatus ) {
+		alert( "Request failed: " + textStatus );
+	});
+});
+
+$( ".like" ).click(function(){
+	console.log($(this).attr('data-idPost') );
+
+	var likeOrigin = $(this).attr('data-idPost');
+	var request = $.ajax({
+		url: "/post/create",
+		method: "POST",
+		data: {
+		},
+		dataType: "json"
+	});
+
+	request.done(function(msg) {
+		msg = $.parseJSON(msg);
+
+		if (msg['result'] == "success")
+		{
+			console.log((msg['data']));
+		}
+
+	});
+
+	request.fail(function( jqXHR, textStatus ) {
+		alert( "Request failed: " + textStatus );
+	});
 });
 });
 </script>
