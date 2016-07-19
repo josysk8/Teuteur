@@ -46,6 +46,13 @@ class User extends BaseUser
      */
     private $followedby;
 
+	/**
+	 * @var array
+	 *
+	 * @ORM\ManyToMany(targetEntity="Channel", mappedBy="users")
+	 */
+	private $channels;
+
     public function __construct()
     {
     	parent::__construct();
@@ -177,5 +184,39 @@ class User extends BaseUser
     public function getFollowedby()
     {
     	return $this->followedby;
+    }
+
+    /**
+     * Add channel
+     *
+     * @param \AppBundle\Entity\Channel $channel
+     *
+     * @return User
+     */
+    public function addChannel(\AppBundle\Entity\Channel $channel)
+    {
+        $this->channels[] = $channel;
+
+        return $this;
+    }
+
+    /**
+     * Remove channel
+     *
+     * @param \AppBundle\Entity\Channel $channel
+     */
+    public function removeChannel(\AppBundle\Entity\Channel $channel)
+    {
+        $this->channels->removeElement($channel);
+    }
+
+    /**
+     * Get channels
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getChannels()
+    {
+        return $this->channels;
     }
 }

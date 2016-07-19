@@ -22,7 +22,6 @@ class PostController extends Controller
 		->getRepository('AppBundle:Post');
 		/** @var User $user */
 		$user = $this->container->get('security.token_storage')->getToken()->getUser();
-		//$authorsList = array(1);
 		$authorsList = $user->getFollow();
 		$posts = $postRepository->getLastForHome($authorsList, 0, 50);
 		$user = $this->container->get('security.token_storage')->getToken()->getUser();
