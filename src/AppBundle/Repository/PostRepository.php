@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
  * PostRepository
@@ -22,5 +23,14 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
 			->getQuery();
 
 		return $query->getResult();
+	}
+
+	public function getReportList()
+	{
+		$query = $this->createQueryBuilder('p')
+			->innerJoin('p.report', 'r')
+			->getQuery();
+		return $query->getResult();
+
 	}
 }

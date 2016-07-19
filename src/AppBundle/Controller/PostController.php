@@ -141,10 +141,46 @@ class PostController extends Controller
 		die;
 	}
 
+	/**
+	 * @Route("/admin/reportlist", name="get_reportlist")
+	 */
 	public function getReportedPostsAction()
 	{
+		/** @var PostRepository $postRepository */
 		$postRepository = $this->getDoctrine()->getRepository('AppBundle:Post');
+		$posts = $postRepository->getReportList();
+		return $this->render('admin/reportlist.html.twig', [
+			'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
+			'posts' => $posts
+		]);
 
+	}
+
+	/**
+	 * @Route("/post/{id}/report", name="report_post")
+	 */
+	public function reportAction($id)
+	{
+		/** @var PostRepository $postRepository */
+		$postRepository = $this->getDoctrine()->getRepository('AppBundle:Post');
+		$em = $this->getDoctrine()->getManager();
+		/** @var User $user */
+		$user = $this->container->get('security.token_storage')->getToken()->getUser();
+		//TODO DEBUG
+		$user = $this->getDoctrine()->getRepository('AppBundle:User')->find(2);
+		/** @var Post $post */
+		$post = $postRepository->find($id);
+		$post->addReport($user);
+		$em->persist($post);
+		$em->flush();
+
+		$result = "success";
+		$data = array('result' => $result);
+		$data = json_encode($data);
+		$response = new JsonResponse();
+		$response->setData($data);
+		$response->send();
+		die;
 
 	}
 }

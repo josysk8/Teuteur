@@ -379,6 +379,28 @@ class Post
 		return $this;
 	}
 
+	/**
+	 * Add report
+	 *
+	 * @param \AppBundle\Entity\Post $post
+	 *
+	 * @return User
+	 */
+	public function addReport(\AppBundle\Entity\User $user)
+	{
+		$this->report[] = $user;
 
+		return $this;
+	}
+
+	/**
+	 * Remove report
+	 *
+	 * @param \AppBundle\Entity\User $user
+	 */
+	public function removeReport(\AppBundle\Entity\Post $user)
+	{
+		$this->report->removeElement($user);
+	}
 }
 
