@@ -180,7 +180,7 @@ class PostController extends Controller
 		/** @var User $user */
 		$user = $this->container->get('security.token_storage')->getToken()->getUser();
 		//TODO DEBUG
-		$user = $this->getDoctrine()->getRepository('AppBundle:User')->find(2);
+		//$user = $this->getDoctrine()->getRepository('AppBundle:User')->find(2);
 		/** @var Post $post */
 		$post = $postRepository->find($id);
 		$post->addReport($user);
