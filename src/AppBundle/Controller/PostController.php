@@ -45,6 +45,7 @@ class PostController extends Controller
 		$user = $this->container->get('security.token_storage')->getToken()->getUser();
 		//TODO DEBUG
 		//$user = $this->getDoctrine()->getRepository('AppBundle:User')->find(2);
+		$post = null;
 		if (!empty($user))
 		{
 			$post = new Post();
@@ -69,7 +70,7 @@ class PostController extends Controller
 			$em->flush();
 			$result = "success";
 		}
-		$data = array('result' => $result);
+		$data = array('result' => $result, 'data' => $post);
 		$data = json_encode($data);
 		$response = new JsonResponse();
 		$response->setData($data);
@@ -91,6 +92,7 @@ class PostController extends Controller
 		$user = $this->container->get('security.token_storage')->getToken()->getUser();
 		//TODO DEBUG
 		//$user = $this->getDoctrine()->getRepository('AppBundle:User')->find(2);
+		$post = null;
 		if (!empty($user))
 		{
 			$post = $postRepository->find($request->request->get('id'));
@@ -104,7 +106,7 @@ class PostController extends Controller
 				$result = "success";
 			}
 		}
-		$data = array('result' => $result);
+		$data = array('result' => $result, 'data' => $post);
 		$data = json_encode($data);
 		$response = new JsonResponse();
 		$response->setData($data);
