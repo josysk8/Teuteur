@@ -1,7 +1,15 @@
 body {
   font-family: sans-serif;
   background-color: #F5F8FA; }
-
+div.barremenu{
+  height: 80px;
+  background-color: #AFEEEE;
+  color :white;
+  font-size: 32px;
+}
+img.Teuteur{
+  height: 80px;
+}
 a {
   text-decoration: none; }
 
