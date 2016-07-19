@@ -11,11 +11,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class UserController extends Controller
 {
 	/**
 	 * @Route("/user/follow/{followId}", name="follow_user")
+	 * @Security("has_role('ROLE_USER')")
 	 * @param integer $followId
 	 */
 	public function followUserAction($followId)
@@ -59,6 +61,7 @@ class UserController extends Controller
 
 	/**
 	 * @Route("/user/unfollow/{unfollowId}", name="unfollow_user")
+	 * @Security("has_role('ROLE_USER')")
 	 * @param integer $unfollowId
 	 */
 	public function unfollowUserAction($unfollowId)
@@ -101,12 +104,12 @@ class UserController extends Controller
 	}
 	/**
      * @Route("/user/edit", name="userEdit")
+	 * @Security("has_role('ROLE_USER')")
      */
 	public function userEditAction(Request $request)
 	{
         // create a user
-		//$user = new User();
-		$user = $this->container->get('security.token_storage')->getToken()->getUser();
+		$user = new User();
 		/*
 		$user->find(1);
 			*/
@@ -114,14 +117,12 @@ class UserController extends Controller
 		$form = $this->createFormBuilder($user)
 		->add('username', TextType::class)
 		->add('email', TextType::class)
-		->add('password', TextType::class)
-		->add('profilPic', TextType::class)
 		->add('save', SubmitType::class, array('label' => 'Create Task'))
 		->getForm();
 
 		return $this->render('user/edit.html.twig', array(
 			'form' => $form->createView(),
-			'user' => $user,
+			'user' => array("nom" => "Smith", "prenom" => "John", "profilPic" => "http://www.adweek.com/socialtimes/files/2012/03/twitter-egg-icon.jpg"),
 			));
 	}
 
@@ -148,6 +149,7 @@ class UserController extends Controller
 
 	/**
 	 * @Route("/user/{id}/nonfriend", name="users_non_friend")
+	 * @Security("has_role('ROLE_USER')")
 	 */
 	public function getNonFriend($id)
 	{

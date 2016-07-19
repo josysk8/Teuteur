@@ -15,6 +15,7 @@ class PostController extends Controller
 {
 	/**
 	 * @Route("/", name="homepage")
+	 * @Security("has_role('ROLE_USER')")
 	 */
 	public function homeAction(Request $request)
 	{
@@ -36,6 +37,7 @@ class PostController extends Controller
 
 	/**
 	 * @Route("/post/create", name="create_post")
+	 * @Security("has_role('ROLE_USER')")
 	 * @param Request $request
 	 */
 	public function createAction(Request $request)
@@ -87,6 +89,7 @@ class PostController extends Controller
 
 	/**
 	 * @Route("/post/edit", name="edit_post")
+	 * @Security("has_role('ROLE_USER')")
 	 * @param Request $request
 	 */
 	public function editAction(Request $request)
@@ -127,6 +130,7 @@ class PostController extends Controller
 
 	/**
 	 * @Route("/post/delete", name="delete_post")
+	 * @Security("has_role('ROLE_USER')")
 	 * @param Request $request
 	 */
 	public function deleteAction(Request $request)
@@ -171,6 +175,7 @@ class PostController extends Controller
 
 	/**
 	 * @Route("/post/{id}/report", name="report_post")
+	 * @Security("has_role('ROLE_USER')")
 	 */
 	public function reportAction($id)
 	{
@@ -197,6 +202,7 @@ class PostController extends Controller
 
 	/**
 	 * @Route("/post/{id}/like", name="like_post")
+	 * @Security("has_role('ROLE_USER')")
 	 * @param $id
 	 */
 	public function likeAction($id)
@@ -224,6 +230,7 @@ class PostController extends Controller
 
 	/**
 	 * @Route("/post/{id}/unlike", name="unlike_post")
+	 * @Security("has_role('ROLE_USER')")
 	 * @param $id
 	 */
 	public function unlikeAction($id)

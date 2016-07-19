@@ -11,11 +11,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class ChannelController extends Controller
 {
 	/**
 	 * @Route("/channel/user/{idUser}", name="get_channels_user")
+	 * @Security("has_role('ROLE_USER')")
 	 * @param $user
 	 */
 	public function getChannelsByUserAction($idUser)
@@ -31,6 +33,7 @@ class ChannelController extends Controller
 
 	/**
 	 * @Route("/channel/{id}/messages", name="get_messages")
+	 * @Security("has_role('ROLE_USER')")
 	 */
 	public function getMessagesAction($id)
 	{
@@ -50,6 +53,7 @@ class ChannelController extends Controller
 
 	/**
 	 * @Route("/channel/{id}/messages/create", name="create_message")
+	 * @Security("has_role('ROLE_USER')")
 	 */
 	public function createMessageAction(Request $request, $id)
 	{
@@ -83,6 +87,7 @@ class ChannelController extends Controller
 
 	/**
 	 * @Route("/channel/create", name="create_channel")
+	 * @Security("has_role('ROLE_USER')")
 	 * @param Request $request
 	 */
 	public function createChannelAction(Request $request)
@@ -106,6 +111,7 @@ class ChannelController extends Controller
 
 	/**
 	 * @Route("/channel/{id}/adduser/{iduser}")
+	 * @Security("has_role('ROLE_USER')")
 	 * @param Request $request
 	 */
 	public function addUserAction($id, $iduser)

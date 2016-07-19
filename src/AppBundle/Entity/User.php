@@ -54,11 +54,12 @@ class User extends BaseUser
 	 */
 	private $channels;
 
-    public function __construct()
-    {
-    	parent::__construct();
+	public function __construct()
+	{
+		parent::__construct();
 		// your own logic
-    }
+		$this->roles = array('ROLE_USER');
+	}
 
     /**
      * Set profilPic
@@ -187,37 +188,38 @@ class User extends BaseUser
     	return $this->followedby;
     }
 
-    /**
-     * Add channel
-     *
-     * @param \AppBundle\Entity\Channel $channel
-     *
-     * @return User
-     */
-    public function addChannel(\AppBundle\Entity\Channel $channel)
-    {
-        $this->channels[] = $channel;
+	/**
+	 * Add channel
+	 *
+	 * @param \AppBundle\Entity\Channel $channel
+	 *
+	 * @return User
+	 */
+	public function addChannel(\AppBundle\Entity\Channel $channel)
+	{
+		$this->channels[] = $channel;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Remove channel
-     *
-     * @param \AppBundle\Entity\Channel $channel
-     */
-    public function removeChannel(\AppBundle\Entity\Channel $channel)
-    {
-        $this->channels->removeElement($channel);
-    }
+	/**
+	 * Remove channel
+	 *
+	 * @param \AppBundle\Entity\Channel $channel
+	 */
+	public function removeChannel(\AppBundle\Entity\Channel $channel)
+	{
+		$this->channels->removeElement($channel);
+	}
 
-    /**
-     * Get channels
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getChannels()
-    {
-        return $this->channels;
-    }
+	/**
+	 * Get channels
+	 *
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getChannels()
+	{
+		return $this->channels;
+	}
+
 }

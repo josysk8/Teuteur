@@ -15,7 +15,7 @@ class SecurityController extends Controller
 
 		if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
 
-			return $this->redirectToRoute('oc_platform_accueil');
+			return $this->redirectToRoute('homepage');
 
 		}
 
