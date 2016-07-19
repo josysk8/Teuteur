@@ -13,6 +13,7 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
 {
 	public function getLastForHome($authors, $start, $limit)
 	{
+
 		$query = $this->createQueryBuilder('p')
 			->where('p.author IN (:authors)')
 			->setParameter(':authors', $authors)
