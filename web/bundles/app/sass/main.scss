@@ -1,0 +1,86 @@
+body
+{
+	font-family: sans-serif;
+	background-color: #F5F8FA;
+}
+a
+{
+	text-decoration: none;
+}
+.profilPic
+{
+	max-width: 50px;
+	max-height: 50px;
+	border-radius: 50%;;
+}
+.connexion
+{
+	float: left;
+	width: 20%;
+	h1
+	{
+		font-size: 20px;
+	}
+}
+.sectionTitle
+{
+	margin-left : 20%;
+}
+#messageInput
+{
+	width: 60%;
+	height: 50px;
+	resize: none;
+}
+.post{
+	background-color: #ffffff;
+	border: 1px solid #BBBEBF;
+	padding: 5px 5px 5px 5px;
+	border-radius: 5px;
+	width: 60%;
+	margin: auto;
+	.autorRT{
+		display: inline-block;
+		color: #BBBEBF;
+		font-style: italic;
+	}
+	.top{
+		img
+		{
+			float: left;
+		}
+		.author{
+			display: inline-block;
+		}
+		.email
+		{
+			display: inline-block;
+			color: #BBBEBF;
+			font-size: 11px;
+			font-style: italic;
+		}
+		.postTime{
+			display: inline-block;
+			color: #BBBEBF;
+			font-size: 10px;
+			font-style: italic;
+		}
+		.follow{
+			float:right;
+		}
+	}
+	.content{
+		font-size: 24px;
+		.embed{
+			img
+			{
+				max-width: 250px;
+				max-height: 250px;
+			}
+		}
+	}
+	.socialButton{
+		.like{}
+		.RT{}
+	}
+}
