@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h1>Liste des non amis</h1>
+            {% for user in users %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img class="profilPic" src="{{user.profilPic}}">
+                            </div>
+                            <div class="col-md-6">
+                                <p>Username : {{ user.username }}</p>
+                                <p>Email : {{ user.email }}</p>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="follow"><button class="followButton button" onclick="follow({{ user.id }})">Suivre</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+

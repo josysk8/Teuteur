@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\User;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
@@ -11,5 +12,21 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
-
+	/**
+	 * @param User $user
+	 * @return mixed
+	 */
+	public function getNonFriend($user)
+	{
+		$array = array($user->getId());
+		foreach($user->getFollow() as $item)
+		{
+			$array[] = $item->getId();
+		}
+		$query = $this->createQueryBuilder('u')
+			->where('u.id NOT IN (:ids)')
+			->setParameter('ids',$array)
+			->getQuery();
+		return $query->getResult();
+	}
 }
