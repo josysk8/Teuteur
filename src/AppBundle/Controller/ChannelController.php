@@ -10,6 +10,7 @@ use AppBundle\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class ChannelController extends Controller
 {
@@ -38,6 +39,13 @@ class ChannelController extends Controller
 		/** @var Channel $channel */
 		$channel = $channelRepository->find($id);
 		$messages = $channel->getMessages();
+		$user = $this->container->get('security.token_storage')->getToken()->getUser();
+		return $this->render('messages/chat.html.twig', [
+			'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
+			'messages' => $messages,
+			'channel' => $channel,
+			'urlretour' => '/channel/user/'.$user->getId()
+		]);
 	}
 
 	/**
@@ -52,8 +60,9 @@ class ChannelController extends Controller
 
 		/** @var UserRepository $userRepository */
 		$userRepository = $this->getDoctrine()->getRepository('AppBundle:User');
-		/** @var User $channel */
-		$user = $userRepository->find($request->request->get('userid'));
+		/** @var User $user */
+		//$user = $userRepository->find($request->request->get('userid'));
+		$user = $this->container->get('security.token_storage')->getToken()->getUser();
 
 		//$user = $userRepository->find(2);
 		$message = new Message();
@@ -66,6 +75,10 @@ class ChannelController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		$em->persist($channel);
 		$em->flush();
+
+		//$this->redirectToRoute('get_messages', array('id'=>$id));
+		$url = $this->generateUrl('get_messages', array('id' => $id));
+		return $this->redirect($url);
 	}
 
 	/**

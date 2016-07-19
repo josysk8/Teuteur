@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <a href="{{ urlretour }}"><button>Retour</button></a>
+            <h3>Channel : {{ channel.name }}</h3>
+            <p>{% for user in channel.users %}
+                {{ user.username|capitalize }},
+                {% endfor %}</p>
+            <hr>
+            <h3>Messages </h3>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="messages-list">
+                        <table class="table-condensed">
+                            {% for message in messages %}
+                                <tr>
+                                    <td><b>{{ message.sender.username }}</b></td>
+                                </tr>
+                                <tr>
+                                    <td>{{ message.message }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <h3>Ajouter un message</h3>
+            <div class="row">
+                <form method="post" action="/channel/{{ channel.id }}/messages/create">
+                    <div class="col-md-8 form-group">
+                        <textarea id="addmessage" placeholder="Ecrire un message" class="form-control" name="message"></textarea>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <input type="submit" value="Envoyer">
+                    </div>
+                </form>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-2 col-md-offset-4">
+                    <a href=""><button>Rafraichir</button></a>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+<style>
+    .messages-list{
+        border: 1px solid #dedede;
+        border-radius: 10px;
+    }
+</style>
+{% endblock %}
