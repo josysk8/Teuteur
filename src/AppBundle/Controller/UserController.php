@@ -109,21 +109,37 @@ class UserController extends Controller
 	public function userEditAction(Request $request)
 	{
         // create a user
-		$user = new User();
-		/*
-		$user->find(1);
-			*/
+		/*$user = new User();
 
 		$form = $this->createFormBuilder($user)
 		->add('username', TextType::class)
 		->add('email', TextType::class)
 		->add('save', SubmitType::class, array('label' => 'Create Task'))
-		->getForm();
+		->getForm();*/
 
+		/** @var User $user */
+		$user = $this->container->get('security.token_storage')->getToken()->getUser();
+		$user->setProfilPic("http://www.adweek.com/socialtimes/files/2012/03/twitter-egg-icon.jpg");
 		return $this->render('user/edit.html.twig', array(
-			'form' => $form->createView(),
-			'user' => array("nom" => "Smith", "prenom" => "John", "profilPic" => "http://www.adweek.com/socialtimes/files/2012/03/twitter-egg-icon.jpg"),
+			'user' => $user,
 			));
+	}
+
+	/**
+	 * @Route("/user/edit/valid", name="user_edit_valid")
+	 * @param Request $request
+	 */
+	public function userEditValidAction(Request $request)
+	{
+		/** @var User $user */
+		$user = $this->container->get('security.token_storage')->getToken()->getUser();
+		$user->setEmail($request->request->get('email'));
+		$user->setUsername($request->request->get('username'));
+		$em = $this->getDoctrine()->getManager();
+		$em->persist($user);
+		$em->flush();
+		$url = $this->generateUrl('userEdit');
+		return $this->redirect($url);
 	}
 
 	/**
