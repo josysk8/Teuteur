@@ -104,7 +104,8 @@ class UserController extends Controller
 	public function userEditAction(Request $request)
 	{
         // create a user
-		$user = new User();
+		//$user = new User();
+		$user = $this->container->get('security.token_storage')->getToken()->getUser();
 		/*
 		$user->find(1);
 			*/
@@ -112,12 +113,14 @@ class UserController extends Controller
 		$form = $this->createFormBuilder($user)
 		->add('username', TextType::class)
 		->add('email', TextType::class)
+		->add('password', TextType::class)
+		->add('profilPic', TextType::class)
 		->add('save', SubmitType::class, array('label' => 'Create Task'))
 		->getForm();
 
 		return $this->render('user/edit.html.twig', array(
 			'form' => $form->createView(),
-			'user' => array("nom" => "Smith", "prenom" => "John", "profilPic" => "http://www.adweek.com/socialtimes/files/2012/03/twitter-egg-icon.jpg"),
+			'user' => $user,
 			));
 	}
 
