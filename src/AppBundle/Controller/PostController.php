@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class PostController extends Controller
 {
@@ -154,6 +155,7 @@ class PostController extends Controller
 
 	/**
 	 * @Route("/admin/reportlist", name="get_reportlist")
+	 * @Security("has_role('ROLE_ADMIN')")
 	 */
 	public function getReportedPostsAction()
 	{

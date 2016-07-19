@@ -120,4 +120,25 @@ class UserController extends Controller
 			'user' => array("nom" => "Smith", "prenom" => "John", "profilPic" => "http://www.adweek.com/socialtimes/files/2012/03/twitter-egg-icon.jpg"),
 			));
 	}
+
+	/**
+	 * @Route("/user/{id}/addadmin", name="user_add_admin")
+	 */
+	public function addAdminRoleAction($id)
+	{
+		$userRepository = $this->get('doctrine')
+			->getRepository('AppBundle:User');
+		/** @var User $user */
+		$user = $userRepository->find($id);
+		$user->addRole("ROLE_ADMIN");
+		$em = $this->getDoctrine()->getManager();
+		$em->persist($user);
+		$em->flush();
+		$data = array('result' => 'success');
+		$data = json_encode($data);
+		$response = new JsonResponse();
+		$response->setData($data);
+		$response->send();
+		die;
+	}
 }
