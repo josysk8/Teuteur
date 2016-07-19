@@ -20,8 +20,10 @@ class PostController extends Controller
 		/** @var PostRepository $postRepository */
 		$postRepository = $this->get('doctrine')
 		->getRepository('AppBundle:Post');
-
-		$authorsList = array(1);
+		/** @var User $user */
+		$user = $this->container->get('security.token_storage')->getToken()->getUser();
+		//$authorsList = array(1);
+		$authorsList = $user->getFollow();
 		$posts = $postRepository->getLastForHome($authorsList, 0, 50);
 		$user = $this->container->get('security.token_storage')->getToken()->getUser();
 		return $this->render('posts/posts.html.twig', [
@@ -44,7 +46,7 @@ class PostController extends Controller
 		/** @var User $user */
 		$user = $this->container->get('security.token_storage')->getToken()->getUser();
 		//TODO DEBUG
-		//$user = $this->getDoctrine()->getRepository('AppBundle:User')->find(2);
+		$user = $this->getDoctrine()->getRepository('AppBundle:User')->find(2);
 		$post = null;
 		if (!empty($user))
 		{
