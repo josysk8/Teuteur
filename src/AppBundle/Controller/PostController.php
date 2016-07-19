@@ -15,17 +15,19 @@ class PostController extends Controller
 {
 	/**
 	 * @Route("/", name="homepage")
+	 * @Security("has_role('ROLE_USER')")
 	 */
 	public function homeAction(Request $request)
 	{
 		/** @var PostRepository $postRepository */
-		$postRepository = $this->get('doctrine')->getRepository('AppBundle:Post');
+		$postRepository = $this->get('doctrine')
+		->getRepository('AppBundle:Post');
 		/** @var User $user */
 		$user = $this->container->get('security.token_storage')->getToken()->getUser();
 		$authorsList = $user->getFollow();
 		$authorsList[] = $user;
 		$posts = $postRepository->getLastForHome($authorsList, 0, 50);
-		//$user = $this->container->get('security.token_storage')->getToken()->getUser();
+		$user = $this->container->get('security.token_storage')->getToken()->getUser();
 		return $this->render('posts/posts.html.twig', [
 			'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
 			'posts' => $posts,
@@ -35,6 +37,7 @@ class PostController extends Controller
 
 	/**
 	 * @Route("/post/create", name="create_post")
+	 * @Security("has_role('ROLE_USER')")
 	 * @param Request $request
 	 */
 	public function createAction(Request $request)
@@ -46,7 +49,7 @@ class PostController extends Controller
 		/** @var User $user */
 		$user = $this->container->get('security.token_storage')->getToken()->getUser();
 		//TODO DEBUG
-		//$user = $this->getDoctrine()->getRepository('AppBundle:User')->find(2);
+		$user = $this->getDoctrine()->getRepository('AppBundle:User')->find(2);
 		$post = null;
 		if (!empty($user))
 		{
@@ -75,8 +78,7 @@ class PostController extends Controller
 		$data = array('result' => $result, 'data' => array(
 			'id' => $post->getId(),
 			'message' => $post->getMessage(),
-			'repost' => $post->getrepost(),
-			'author' => array('id' => $post->getAuthor()->getid(),'email' => $post->getAuthor()->getemail(),'username' => $post->getAuthor()->getusername(),'profilPic' => $post->getAuthor()->getprofilpic() ) ,
+			'author' => $post->getAuthor(),
 			'dateCreate' => $post->getDateCreate()));
 		$data = json_encode($data);
 		$response = new JsonResponse();
@@ -87,6 +89,7 @@ class PostController extends Controller
 
 	/**
 	 * @Route("/post/edit", name="edit_post")
+	 * @Security("has_role('ROLE_USER')")
 	 * @param Request $request
 	 */
 	public function editAction(Request $request)
@@ -127,6 +130,7 @@ class PostController extends Controller
 
 	/**
 	 * @Route("/post/delete", name="delete_post")
+	 * @Security("has_role('ROLE_USER')")
 	 * @param Request $request
 	 */
 	public function deleteAction(Request $request)
@@ -171,6 +175,7 @@ class PostController extends Controller
 
 	/**
 	 * @Route("/post/{id}/report", name="report_post")
+	 * @Security("has_role('ROLE_USER')")
 	 */
 	public function reportAction($id)
 	{
@@ -179,8 +184,6 @@ class PostController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		/** @var User $user */
 		$user = $this->container->get('security.token_storage')->getToken()->getUser();
-		//TODO DEBUG
-		//$user = $this->getDoctrine()->getRepository('AppBundle:User')->find(2);
 		/** @var Post $post */
 		$post = $postRepository->find($id);
 		$post->addReport($user);
@@ -195,5 +198,61 @@ class PostController extends Controller
 		$response->send();
 		die;
 
+	}
+
+	/**
+	 * @Route("/post/{id}/like", name="like_post")
+	 * @Security("has_role('ROLE_USER')")
+	 * @param $id
+	 */
+	public function likeAction($id)
+	{
+		/** @var PostRepository $postRepository */
+		$postRepository = $this->getDoctrine()->getRepository('AppBundle:Post');
+		$em = $this->getDoctrine()->getManager();
+		/** @var User $user */
+		$user = $this->container->get('security.token_storage')->getToken()->getUser();
+		/** @var Post $post */
+		$post = $postRepository->find($id);
+		$post->addLike($user);
+
+		$em->persist($post);
+		$em->flush();
+
+		$result = "success";
+		$data = array('result' => $result);
+		$data = json_encode($data);
+		$response = new JsonResponse();
+		$response->setData($data);
+		$response->send();
+		die;
+	}
+
+	/**
+	 * @Route("/post/{id}/unlike", name="unlike_post")
+	 * @Security("has_role('ROLE_USER')")
+	 * @param $id
+	 */
+	public function unlikeAction($id)
+	{
+		/** @var PostRepository $postRepository */
+		$postRepository = $this->getDoctrine()->getRepository('AppBundle:Post');
+		$em = $this->getDoctrine()->getManager();
+		/** @var User $user */
+		$user = $this->container->get('security.token_storage')->getToken()->getUser();
+		/** @var Post $post */
+		$post = $postRepository->find($id);
+		$post->removeLike($user);
+
+		$em->persist($post);
+		$em->flush();
+
+		$result = "success";
+		$data = array('result' => $result);
+		$data = json_encode($data);
+		$response = new JsonResponse();
+		$response->setData($data);
+		$response->send();
+		die;
 	}
 }

@@ -10,11 +10,14 @@ use AppBundle\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class ChannelController extends Controller
 {
 	/**
 	 * @Route("/channel/user/{idUser}", name="get_channels_user")
+	 * @Security("has_role('ROLE_USER')")
 	 * @param $user
 	 */
 	public function getChannelsByUserAction($idUser)
@@ -30,6 +33,7 @@ class ChannelController extends Controller
 
 	/**
 	 * @Route("/channel/{id}/messages", name="get_messages")
+	 * @Security("has_role('ROLE_USER')")
 	 */
 	public function getMessagesAction($id)
 	{
@@ -38,10 +42,18 @@ class ChannelController extends Controller
 		/** @var Channel $channel */
 		$channel = $channelRepository->find($id);
 		$messages = $channel->getMessages();
+		$user = $this->container->get('security.token_storage')->getToken()->getUser();
+		return $this->render('messages/chat.html.twig', [
+			'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
+			'messages' => $messages,
+			'channel' => $channel,
+			'urlretour' => '/channel/user/'.$user->getId()
+		]);
 	}
 
 	/**
 	 * @Route("/channel/{id}/messages/create", name="create_message")
+	 * @Security("has_role('ROLE_USER')")
 	 */
 	public function createMessageAction(Request $request, $id)
 	{
@@ -52,8 +64,9 @@ class ChannelController extends Controller
 
 		/** @var UserRepository $userRepository */
 		$userRepository = $this->getDoctrine()->getRepository('AppBundle:User');
-		/** @var User $channel */
-		$user = $userRepository->find($request->request->get('userid'));
+		/** @var User $user */
+		//$user = $userRepository->find($request->request->get('userid'));
+		$user = $this->container->get('security.token_storage')->getToken()->getUser();
 
 		//$user = $userRepository->find(2);
 		$message = new Message();
@@ -66,10 +79,15 @@ class ChannelController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		$em->persist($channel);
 		$em->flush();
+
+		//$this->redirectToRoute('get_messages', array('id'=>$id));
+		$url = $this->generateUrl('get_messages', array('id' => $id));
+		return $this->redirect($url);
 	}
 
 	/**
 	 * @Route("/channel/create", name="create_channel")
+	 * @Security("has_role('ROLE_USER')")
 	 * @param Request $request
 	 */
 	public function createChannelAction(Request $request)
@@ -93,6 +111,7 @@ class ChannelController extends Controller
 
 	/**
 	 * @Route("/channel/{id}/adduser/{iduser}")
+	 * @Security("has_role('ROLE_USER')")
 	 * @param Request $request
 	 */
 	public function addUserAction($id, $iduser)
