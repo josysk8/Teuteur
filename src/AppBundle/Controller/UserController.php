@@ -22,7 +22,7 @@ class UserController extends Controller
 	{
 		$em = $this->getDoctrine()->getManager();
 		$userRepository = $this->get('doctrine')
-			->getRepository('AppBundle:User');
+		->getRepository('AppBundle:User');
 
 		$userToFollow = $userRepository->find($followId);
 		/** @var User $user */
@@ -65,7 +65,7 @@ class UserController extends Controller
 	{
 		$em = $this->getDoctrine()->getManager();
 		$userRepository = $this->get('doctrine')
-			->getRepository('AppBundle:User');
+		->getRepository('AppBundle:User');
 
 		$userToUnfollow = $userRepository->find($unfollowId);
 		/** @var User $user */
@@ -114,9 +114,12 @@ class UserController extends Controller
 		$form = $this->createFormBuilder($user)
 		->add('username', TextType::class)
 		->add('email', TextType::class)
-		->add('password', TextType::class)
+		->add('password', TextType::class, array(
+			'data' => '',
+			'required' => false
+			))
 		->add('profilPic', TextType::class)
-		->add('save', SubmitType::class, array('label' => 'Create Task'))
+		->add('save', SubmitType::class, array('label' => 'Modifier utilisateur'))
 		->getForm();
 
 		return $this->render('user/edit.html.twig', array(
@@ -131,7 +134,7 @@ class UserController extends Controller
 	public function addAdminRoleAction($id)
 	{
 		$userRepository = $this->get('doctrine')
-			->getRepository('AppBundle:User');
+		->getRepository('AppBundle:User');
 		/** @var User $user */
 		$user = $userRepository->find($id);
 		$user->addRole("ROLE_ADMIN");
@@ -153,12 +156,12 @@ class UserController extends Controller
 	{
 		/** @var UserRepository $userRepository */
 		$userRepository = $this->get('doctrine')
-			->getRepository('AppBundle:User');
+		->getRepository('AppBundle:User');
 		/** @var User $user */
 		$user = $userRepository->find($id);
 		$usersList = $userRepository->getNonFriend($user);
 		return $this->render('user/nonfriend.html.twig', array(
 			'users' => $usersList,
-		));
+			));
 	}
 }
