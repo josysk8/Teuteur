@@ -70,7 +70,11 @@ class PostController extends Controller
 			$em->flush();
 			$result = "success";
 		}
-		$data = array('result' => $result, 'data' => $post);
+		$data = array('result' => $result, 'data' => array(
+			'id' => $post->getId(),
+			'message' => $post->getMessage(),
+			'author' => $post->getAuthor(),
+			'dateCreate' => $post->getDateCreate()));
 		$data = json_encode($data);
 		$response = new JsonResponse();
 		$response->setData($data);
@@ -106,7 +110,11 @@ class PostController extends Controller
 				$result = "success";
 			}
 		}
-		$data = array('result' => $result, 'data' => $post);
+		$data = array('result' => $result, 'data' => array(
+			'id' => $post->getId(),
+			'message' => $post->getMessage(),
+			'author' => $post->getAuthor(),
+			'dateCreate' => $post->getDateCreate()));
 		$data = json_encode($data);
 		$response = new JsonResponse();
 		$response->setData($data);
