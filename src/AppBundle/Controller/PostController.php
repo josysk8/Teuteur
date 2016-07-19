@@ -76,7 +76,8 @@ class PostController extends Controller
 		$data = array('result' => $result, 'data' => array(
 			'id' => $post->getId(),
 			'message' => $post->getMessage(),
-			'author' => $post->getAuthor(),
+			'repost' => $post->getrepost(),
+			'author' => array('id' => $post->getAuthor()->getid(),'email' => $post->getAuthor()->getemail(),'username' => $post->getAuthor()->getusername(),'profilPic' => $post->getAuthor()->getprofilpic() ) ,
 			'dateCreate' => $post->getDateCreate()));
 		$data = json_encode($data);
 		$response = new JsonResponse();
