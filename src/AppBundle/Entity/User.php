@@ -82,6 +82,8 @@ class User extends BaseUser
      */
     public function getProfilPic()
     {
+		if (empty($this->profilPic))
+			$this->profilPic = "http://www.adweek.com/socialtimes/files/2012/03/twitter-egg-icon.jpg";
     	return $this->profilPic;
     }
 
