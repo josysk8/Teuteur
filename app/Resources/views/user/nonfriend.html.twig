@@ -3,6 +3,7 @@
 {% block body %}
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
+            <a href="/"><button>Accueil</button></a>
             <h1>Liste des non amis</h1>
             {% for user in users %}
                 <div class="row">
@@ -24,5 +25,8 @@
             {% endfor %}
         </div>
     </div>
+    {% stylesheets 'bundles/app/css/main.css' filter="cssrewrite" %}
+    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+    {% endstylesheets %}
 {% endblock %}
 
