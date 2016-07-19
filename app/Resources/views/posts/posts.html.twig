@@ -4,9 +4,11 @@
 <div class="connexion">
 	<img class="profilPic" src="{{user.profilPic}}">
 	<h1>{{user.username}} {{user.email}}</h1>
-	<a href="">Personaliser mon profil</a>
+	<a href="/user/edit">Personaliser mon profil</a>
 	<br>
-	<a href="">Se déconnecter</a>
+	<a href="user/{{user.id}}/nonfriend">Suivre des personnes</a>
+	<br>
+	<a href="logout">Se déconnecter</a>
 </div>
 {% endblock %}
 {% block body %}
