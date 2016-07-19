@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -103,7 +104,14 @@ class Post
 	 */
 	private $responses;
 
-    /**
+	public function __construct()
+	{
+		$this->likes = new ArrayCollection();
+		$this->report = new ArrayCollection();
+		$this->responses = new ArrayCollection();
+	}
+
+	/**
      * Get id
      *
      * @return int
