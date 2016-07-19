@@ -29,6 +29,7 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
 	{
 		$query = $this->createQueryBuilder('p')
 			->innerJoin('p.report', 'r')
+			->where('p.status = 1')
 			->getQuery();
 		return $query->getResult();
 
